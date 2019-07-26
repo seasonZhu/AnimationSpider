@@ -29,7 +29,6 @@ class DetailUrlThread(Thread):
             # 多线程开始下载
             self.startDownload(downloadInfo = downloadInfo)
             
-
     def startDownload(self, downloadInfo):
         """ 通过DonwloadInfo模型中的数据进行下载 """
         name = downloadInfo.title + ".torrent"

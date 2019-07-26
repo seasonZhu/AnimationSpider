@@ -37,7 +37,6 @@ class DownloadThread(Thread):
         data = response.content
         self.write(name = name, data = data)
         
-
     def write(self, name, data):
         """ data二进制写入,保存为种子 """
         #使用try except else 进行异常捕获
