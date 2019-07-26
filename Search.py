@@ -99,6 +99,10 @@ def searchPrepare():
     if keyword == None:
         keyword = input("请输入动画名:")
 
+    #判断文件夹是否存在,如果不存在就创建一个
+    if not os.path.exists(Constant.seedFilePath):
+        os.makedirs(Constant.seedFilePath)
+
     #将工作目录改到影片的[Seed]文件夹 用于管理种子
     os.chdir(Constant.seedFilePath)
 
