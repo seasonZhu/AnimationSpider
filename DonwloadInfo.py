@@ -13,7 +13,7 @@ class DonwloadInfo:
         self.time = self.toTimeString(date)
 
     #初始化中的子函数 子函数必须写在调用之前
-    def toTimeString(self,date):
+    def toTimeString(self, date):
         """ 时间戳转字符串的方法 """
         timeStamp = int(date)
         dateArray = datetime.datetime.utcfromtimestamp(timeStamp)

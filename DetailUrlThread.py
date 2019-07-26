@@ -42,25 +42,29 @@ class DetailUrlThread(Thread):
         soup = BeautifulSoup(detailResponse.text, "html.parser")
         
         downloadInfos = soup.select("#download")
-        downloadInfo = downloadInfos[0].get("href")
-        downloadUrl = Constant.baseURL + downloadInfo
+        href = downloadInfos[0].get("href")
+        downloadUrl = Constant.baseURL + href
         '''
-        downloadInfo的格式:
+        href的格式:
         down.php?date=1556390414&hash=d8e9125797a795c6888e62b6f952b5d6e38265ba
         '''
+        # 通过soup获取title
         title = self.getDetailUrlOfTitle(soup)
 
-        dateAndHash = downloadInfo.split(sep = "?")[1]
+        # 通过字符串分割获取时间戳和哈希值
+        dateAndHash = href.split(sep = "?")[1]
 
+        # 获取时间戳
         date = self.getDetailUrlOfDate(dateAndHash)
 
+        # 获取哈希值
         hashValue = self.getDetailUrlOfHashValue(dateAndHash)
 
         downloadInfo = DonwloadInfo(title, downloadUrl, date, hashValue)
-        print(downloadInfo.title)
+
         return downloadInfo
 
-    def getDetailUrlOfTitle(self,soup):
+    def getDetailUrlOfTitle(self, soup):
         """ 获取详细页面的标题 """
         text = soup.select("#btm > div.main > div.slayout > div > div.c2 > div:nth-child(3) > div.torrent_files > ul > li")[0].get_text()
         # 对于桜都奇葩的命名做特殊处理 
@@ -74,12 +78,12 @@ class DetailUrlThread(Thread):
         # Title = text[:rIndex]
         return title
 
-    def getDetailUrlOfDate(self,dateAndHash):
+    def getDetailUrlOfDate(self, dateAndHash):
         """ 获取详细页面的种子时间戳 """
         date = dateAndHash.split(sep = "&")[0].split(sep = "=")[1]
         return date
 
-    def getDetailUrlOfHashValue(self,dateAndHash):
+    def getDetailUrlOfHashValue(self, dateAndHash):
         """ 获取详细也的种子的哈希值 """
         hashValue = dateAndHash.split(sep = "&")[1].split(sep = "=")[1]
         return hashValue
