@@ -22,11 +22,12 @@ def searchAnimation(keyword = None, pageNum = None):
     keywordURL = Constant.baseURL + keyword + page
     keywordResponse = requests.get(keywordURL, headers = Constant.headers)
     soup = BeautifulSoup(keywordResponse.text, "html.parser")
-    return soup
+    htmlText = keywordResponse.text
+    return (soup, htmlText)
 
 def getSearchPageNum(keyword):
     """ 获取搜索的动画一共有多少页 """
-    soup = searchAnimation(keyword = keyword)
+    (soup, _) = searchAnimation(keyword = keyword)
     pageLastInfos = soup.select("#btm > div.main > div.pages.clear > a.pager-last.active")
     pageInfos = soup.select("#btm > div.main > div.pages.clear > a:nth-child(3)")
 
@@ -64,16 +65,16 @@ def getAllPageListCount(soup):
     resultCount = resultCounts.group()
     return resultCount
 
-def getDetailUrls(soup):
+def getDetailUrls(soup, htmlText):
     """ 获取详细的动画页面的Url """
     pageListCount = getSearchOnePageListCount(soup)
-    detailUrProduce = DetailUrlProduce(soup = soup, pageListCount = pageListCount)
+    detailUrProduce = DetailUrlProduce(soup = soup, pageListCount = pageListCount, htmlText = htmlText)
     detailUrls = detailUrProduce.getAllDetailUrls()
     return detailUrls
 
 def searchAction(keyword, page):
     """ 搜索行为 """
-    soup = searchAnimation(keyword = keyword, pageNum = page)
+    (soup, htmlText) = searchAnimation(keyword = keyword, pageNum = page)
 
     animationsNums = getAllPageListCount(soup)
     if animationsNums == 0 or animationsNums == None:
@@ -81,7 +82,7 @@ def searchAction(keyword, page):
         return
 
     # 获取列表中的详细信息是在主线程中解析的
-    detailUrls = getDetailUrls(soup = soup)
+    detailUrls = getDetailUrls(soup = soup, htmlText = htmlText)
 
     # 使用信号量控制并发的数量 并发线程太多也不是好事
     sem = Semaphore(value = 10)
