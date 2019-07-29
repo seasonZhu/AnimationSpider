@@ -40,3 +40,5 @@ def listPushSelectFormat(index):
 # //*[@id="btm"]/div[10]/div[2]/div/div[1]/div[1]/div/p[6]/text()[2]
 # //*[@id="btm"]/div[10]/div[2]/div/div[1]/div[1]/div/p[6]/text()[3]
 # //*[@id="btm"]/div[10]/div[2]/div/div[1]/div[1]/div/p[6]/text()[4]
+
+#btm > div.main > div.slayout > div > div.c1 > div:nth-child(1) > div > p:nth-child(6)

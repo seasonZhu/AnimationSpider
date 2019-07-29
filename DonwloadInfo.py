@@ -4,13 +4,14 @@ import datetime
 class DonwloadInfo:
     """ 下载对象的信息模型 """
     
-    def __init__(self, title, downloadURL, date, hashValue):
+    def __init__(self, title, downloadURL, date, hashValue, size):
         """ DonwloadInfo的初始化方法 """
         self.title = title
         self.downloadURL = downloadURL
         self.date = date
         self.hashValue = hashValue
         self.time = self.toTimeString(date)
+        self.size = size
 
     #初始化中的子函数 子函数必须写在调用之前
     def toTimeString(self, date):

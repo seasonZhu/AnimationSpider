@@ -23,7 +23,7 @@ class DetailUrlProduce():
             detailUrl = Constant.baseURL + self.soup.select(Formate.detailUrlSelectFormat(index))[0].get("href")
             print(detailUrl)
             detailUrls.append(detailUrl)
-            self.getListInfo(index = index)
+            #self.getListInfo(index = index)
         return detailUrls
 
     def getListInfo(self, index):

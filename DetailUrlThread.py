@@ -1,7 +1,9 @@
 from threading import Thread
+import re
 
 from bs4 import BeautifulSoup
 import requests
+from lxml import etree
 
 from DonwloadInfo import DonwloadInfo
 from DownloadThread import DownloadThread
@@ -59,7 +61,14 @@ class DetailUrlThread(Thread):
         # 获取哈希值
         hashValue = self.getDetailUrlOfHashValue(dateAndHash)
 
-        downloadInfo = DonwloadInfo(title, downloadUrl, date, hashValue)
+        # 获取文件大小
+        size = self.getDetailUrlOfSize(soup)
+
+        # 获取字符串的基本信息
+        #basicInfo = self.getDetailUrlOfBasicInfo(detailResponse.text, soup)
+
+        # 生成下载信息模型
+        downloadInfo = DonwloadInfo(title, downloadUrl, date, hashValue, size)
 
         return downloadInfo
 
@@ -69,7 +78,8 @@ class DetailUrlThread(Thread):
         # 对于桜都奇葩的命名做特殊处理 
         # 桜都的实在太奇葩 我没有办法做特别好的处理 除非写一个很好的正则表达
         if text.find("[Sakurato.sub]"):
-            title = text.replace("[Sakurato.sub]","[Sakurato]").split(sep = ".")[0]
+            text = text.replace("[Sakurato.sub]","[Sakurato]")
+            title = text.split(sep = ".")[0]
         else:
             title = text.split(sep = ".")[0]
         # 从字符串的右边开始 获取第一次得到"."的位置信息进行切片 也没有解决这个问题
@@ -77,12 +87,25 @@ class DetailUrlThread(Thread):
         # Title = text[:rIndex]
         return title
 
+    def getDetailUrlOfSize(self, soup):
+        text = soup.select("#btm > div.main > div.slayout > div > div.c2 > div:nth-child(3) > h2 > span.right.text_normal")[0].get_text()
+        sizeText = text.split(sep = "，")[1]
+        size = sizeText.split(sep = "：")[1]
+        return size
+
     def getDetailUrlOfDate(self, dateAndHash):
         """ 获取详细页面的种子时间戳 """
         date = dateAndHash.split(sep = "&")[0].split(sep = "=")[1]
         return date
 
     def getDetailUrlOfHashValue(self, dateAndHash):
-        """ 获取详细也的种子的哈希值 """
+        """ 获取详细页面的种子的哈希值 """
         hashValue = dateAndHash.split(sep = "&")[1].split(sep = "=")[1]
         return hashValue
+
+    def getDetailUrlOfBasicInfo(self, htmlText, soup):
+        """ 获取详细页面的基本信息 """
+        selector = etree.HTML(htmlText)
+        string = selector.xpath('//*[@id="btm"]/div[10]/div[2]/div/div[1]/div[1]/div/p[6]/text()')
+        info = soup.select("#btm > div.main > div.slayout > div > div.c1 > div:nth-child(1) > div > p:nth-child(6)")[0].get_text()
+        return (string, info)
