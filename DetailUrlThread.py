@@ -19,6 +19,7 @@ class DetailUrlThread(Thread):
         super().__init__()
         self.detailUrls = detailUrls
         self.sem = sem
+        self.downloadInfos = []
 
     def run(self):
         """ 重写run方法 """
@@ -30,6 +31,8 @@ class DetailUrlThread(Thread):
 
             # 多线程开始下载
             self.startDownload(downloadInfo = downloadInfo)
+
+            self.downloadInfos.append(downloadInfo)
             
     def startDownload(self, downloadInfo):
         """ 通过DonwloadInfo模型中的数据进行下载 """

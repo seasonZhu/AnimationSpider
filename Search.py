@@ -9,6 +9,7 @@ import Formate
 import Constant
 from DetailUrlProduce import DetailUrlProduce
 from DetailUrlThread import DetailUrlThread
+from CSVWriter import CSVWriter
 
 """ 模块的主程序入口,启动下载 """
 
@@ -93,6 +94,10 @@ def searchAction(keyword, page):
 
     detailUrlThread.join()
     print("所有的下载完成")
+
+    # 再主线程中进行最后的写入,这样更安全,其实并不是这样,只是这样写了而已
+    writer = CSVWriter()
+    writer.write(detailUrlThread.downloadInfos)
 
 def searchPrepare():
     """ 搜索的准备工作 """
