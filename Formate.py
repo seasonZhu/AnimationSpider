@@ -34,11 +34,9 @@ def listFinishedSelectFormat(index):
 def listPushSelectFormat(index):
     return '//*[@id="data_list"]/tr[{}]/td[8]/a'.format(index)
 
-# 详细页面中的基本信息
-#btm > div.main > div.slayout > div > div.c1 > div:nth-child(1) > div
+'''详细页面中的基本信息 下面的都拿不到具体的数字 所以还是算了吧'''
+#btm > div.main > div.slayout > div > div.c1 > div:nth-child(1) > div > p:nth-child(6)
 # //*[@id="btm"]/div[10]/div[2]/div/div[1]/div[1]/div/p[6]/text()[1]
 # //*[@id="btm"]/div[10]/div[2]/div/div[1]/div[1]/div/p[6]/text()[2]
 # //*[@id="btm"]/div[10]/div[2]/div/div[1]/div[1]/div/p[6]/text()[3]
 # //*[@id="btm"]/div[10]/div[2]/div/div[1]/div[1]/div/p[6]/text()[4]
-
-#btm > div.main > div.slayout > div > div.c1 > div:nth-child(1) > div > p:nth-child(6)

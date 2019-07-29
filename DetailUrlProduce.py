@@ -27,6 +27,7 @@ class DetailUrlProduce():
         return detailUrls
 
     def getListInfo(self, index):
+        """ 获取列表一行里的基本信息 """
         selector = etree.HTML(self.htmlText)
         size = selector.xpath(Formate.listSizeSelectFormat(index))[0].text
         makeSeedNum = selector.xpath(Formate.listMakeSeedNumSelectFormat(index))

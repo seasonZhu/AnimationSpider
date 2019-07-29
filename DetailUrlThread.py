@@ -88,9 +88,14 @@ class DetailUrlThread(Thread):
         return title
 
     def getDetailUrlOfSize(self, soup):
+        """ 获取详细页面的文件大小 """
         text = soup.select("#btm > div.main > div.slayout > div > div.c2 > div:nth-child(3) > h2 > span.right.text_normal")[0].get_text()
         sizeText = text.split(sep = "，")[1]
         size = sizeText.split(sep = "：")[1]
+
+        # 这里使用正则表达式获取不到 单位 其实可以用写一个合理的正则去表示
+        #sizes = re.search(r"\d+",sizeText)
+        #size = sizes.group()
         return size
 
     def getDetailUrlOfDate(self, dateAndHash):
