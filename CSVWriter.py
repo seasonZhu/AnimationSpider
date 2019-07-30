@@ -18,7 +18,7 @@ class CSVWriter():
     def __init__(self):
         """ csv写入器 """
         time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.csvFile = Constant.seedFilePath + "downloadList" + "_" + time + ".csv"
+        self.csvFile = Constant.seedFilePath + "/downloadList" + "_" + time + ".csv"
 
     def write(self, downloadInfos):
         """ 写入的方法 """
