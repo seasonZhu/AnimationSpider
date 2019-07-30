@@ -95,7 +95,7 @@ def searchAction(keyword, page):
     detailUrlThread.join()
     print("所有的下载完成")
 
-    # 再主线程中进行最后的写入,这样更安全,其实并不是这样,只是这样写了而已
+    # 在主线程中进行最后的写入,这样更安全,其实并不是这样,只是这样写了而已
     writer = CSVWriter()
     writer.write(detailUrlThread.downloadInfos)
 
@@ -105,14 +105,14 @@ def searchPrepare():
     if keyword == None:
         keyword = input("请输入动画名:")
 
-    #判断文件夹是否存在,如果不存在就创建一个
+    # 判断文件夹是否存在,如果不存在就创建一个
     if not os.path.exists(Constant.seedFilePath):
         os.makedirs(Constant.seedFilePath)
 
-    #将工作目录改到影片的[Seed]文件夹 用于管理种子
+    # 将工作目录改到影片的[Seed]文件夹 用于管理种子
     os.chdir(Constant.seedFilePath)
 
-    #获取通过关键字搜索的页面数量
+    # 获取通过关键字搜索的页面数量
     pageNum = getSearchPageNum(keyword = keyword) or 0
 
     return (keyword, pageNum)

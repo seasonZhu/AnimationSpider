@@ -39,7 +39,7 @@ class DownloadThread(Thread):
         
     def write(self, name, data):
         """ data二进制写入,保存为种子 """
-        #使用try except else 进行异常捕获
+        # 使用try except else 进行异常捕获
         try:
             with open(name,"wb") as f:
                 f.write(data)
