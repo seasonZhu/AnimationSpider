@@ -96,7 +96,7 @@ def searchAction(keyword, page):
     print("所有的下载完成")
 
     # 在主线程中进行最后的写入,这样更安全,其实并不是这样,只是这样写了而已
-    writer = CSVWriter()
+    writer = CSVWriter(keyword = keyword)
     writer.write(detailUrlThread.downloadInfos)
 
 def searchPrepare():

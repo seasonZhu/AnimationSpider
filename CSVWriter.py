@@ -13,12 +13,13 @@ def singleton(cls, *args, **kwargs):
         return instances[cls]
     return _singleton
 
-@singleton
+#@singleton
 class CSVWriter():
-    def __init__(self):
+    def __init__(self, keyword):
         """ csv写入器 """
         time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.csvFile = Constant.seedFilePath + "/downloadList" + "_" + time + ".csv"
+        keyword = keyword.replace("/", "_")
+        self.csvFile = Constant.seedFilePath + "/{}".format(keyword) + "_" + time + ".csv"
 
     def write(self, downloadInfos):
         """ 写入的方法 """

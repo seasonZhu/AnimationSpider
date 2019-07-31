@@ -8,7 +8,7 @@
 
 本代码仅在MacOS上运行良好,没有在Windows平台进行测试.
 
-本代码依赖第三方库requests和BeautifulSoup和lxml,部分使用lxml框架进行解析,只是为了学习视同Xpath方式进行爬虫.
+本代码依赖第三方库requests和BeautifulSoup和lxml,部分使用lxml框架进行解析,只是为了学习使用Xpath方式进行爬虫.
 
 本代码由python3编写.
 
