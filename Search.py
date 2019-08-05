@@ -99,6 +99,9 @@ def searchAction(keyword, page):
     writer = CSVWriter(keyword = keyword)
     writer.write(detailUrlThread.downloadInfos)
 
+    # 下载完成后打开下载种子的文件夹
+    os.system(r"open {}".format(Constant.seedFilePath))
+
 def searchPrepare():
     """ 搜索的准备工作 """
     keyword = None
