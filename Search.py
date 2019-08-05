@@ -122,7 +122,6 @@ def searchPrepare():
 
 def startSearch():
     """ 开始搜索 """
-    
     (keyword, pageNum) = searchPrepare()
 
     for page in range(1, int(pageNum) + 1):
