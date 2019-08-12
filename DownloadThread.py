@@ -39,7 +39,7 @@ class DownloadThread(Thread):
         
     def write(self, name, data):
         """ data二进制写入,保存为种子 """
-        # 使用try except else 进行异常捕获
+        # 使用try except else finaly 进行异常捕获, 先运行try里面的代码,如果捕获到异常则走except中的代码,否则走else,最后不管是走expect还是else最终都会走到finally中
         try:
             with open(name,"wb") as f:
                 f.write(data)
@@ -49,3 +49,5 @@ class DownloadThread(Thread):
         else:
             message = name + " download success!"
             print(message)
+        finally:
+            pass

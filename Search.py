@@ -1,3 +1,4 @@
+""" 引入的风格参考了request 说来很巧,我自己一开始也是按照 系统 第三方 自己的顺序进行的, 没想到这个就是Python公认的引用顺序 """
 import re
 import os
 from threading import Semaphore

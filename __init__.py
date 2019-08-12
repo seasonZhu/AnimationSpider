@@ -8,4 +8,6 @@
 GitHub Token: 6fb177d23507c757213e9fb8fffbcd0e74043a2a
 GitHub Gist: 44a5795a1c31ce024f289deec7067be7
 GitHub Gist Type: Secret
+
+tinypng API: G1KxF6BXqnlFbQ8TH17MjQ1WX3DwRrSx
 """
