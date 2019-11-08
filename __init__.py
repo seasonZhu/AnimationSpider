@@ -11,3 +11,9 @@ GitHub Gist Type: Secret
 
 tinypng API: G1KxF6BXqnlFbQ8TH17MjQ1WX3DwRrSx
 """
+
+""" 
+块注释
+
+Alt + Shift + A
+"""
