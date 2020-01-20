@@ -53,10 +53,15 @@ def getSearchOnePageListCount(soup):
     """ 每一页的动画列表的动画数量 """
     data_listInfos = soup.select("#data_list")
     data_list = data_listInfos[0]
-    contents= data_list.contents
-    del contents[0]
-    count = int(len(contents) / 2)
-    return count
+    dataText = data_list.get_text()
+    # 判断资源为空不能通过data_list.contents来进行区别,以为数据为空的时候,这数组还是有值的而且大于0
+    if Constant.noResource in dataText:
+        return 0
+    else:
+        contents= data_list.contents
+        del contents[0]
+        count = int(len(contents) / 2)
+        return count
 
 def getAllPageListCount(soup):
     """ 搜索动画总的数量 """

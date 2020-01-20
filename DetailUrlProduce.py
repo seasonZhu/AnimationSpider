@@ -20,10 +20,14 @@ class DetailUrlProduce():
         print("一页的数量{}".format(self.pageListCount))
         detailUrls = []
         for index in range(1, self.pageListCount + 1):
-            detailUrl = Constant.baseURL + self.soup.select(Formate.detailUrlSelectFormat(index))[0].get("href")
-            print(detailUrl)
-            detailUrls.append(detailUrl)
-            #self.getListInfo(index = index)
+            someUrlsInfo = self.soup.select(Formate.detailUrlSelectFormat(index))
+            if len(someUrlsInfo) > 0:
+                detailUrl = Constant.baseURL + someUrlsInfo[0].get("href")
+                print(detailUrl)
+                detailUrls.append(detailUrl)
+                #self.getListInfo(index = index)
+            else:
+                continue
         return detailUrls
 
     def getListInfo(self, index):
