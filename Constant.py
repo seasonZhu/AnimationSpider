@@ -2,7 +2,7 @@
 import os
 
 # 基本网址 这两个网址的是同一个系统写的,所以爬起来一模一样
-baseURL = "http://www.acgsou.com/"#"https://www.36dm.com/"#
+baseURL = "https://www.36dm.com/"#"http://www.acgsou.com/"#
 
 # 请求头
 headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",

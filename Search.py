@@ -133,11 +133,3 @@ def startSearch():
     for page in range(1, int(pageNum) + 1):
         print("第{}页".format(page))
         searchAction(keyword = keyword, page = page)
-
-def main():
-    """ 主函数 """
-    startSearch()
-        
-if __name__ == "__main__":
-    main()
-
