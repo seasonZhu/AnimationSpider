@@ -7,11 +7,14 @@
 # @File     : DouYinMusic.py
 
 import os
-import requests
 from bs4 import BeautifulSoup
 import threading
 import time
 
+# 系统层级的判断正则表达式的类
+import re
+# 大名鼎鼎的网络请求库
+import requests
 
 class DouYinMusic:
     def __init__(self):
@@ -89,3 +92,24 @@ class DouYinMusic:
 if __name__ == '__main__':
     main = DouYinMusic()
     main.run()
+
+def getWeiXinAppStoreInfo():
+    url = "http://itunes.apple.com/cn/lookup?id=414478124"
+    # 下面这个网址获取不到什么有价值的信息
+    # url = "https://apps.apple.com/cn/app/%E5%BE%AE%E4%BF%A1/id414478124"
+    # 请求回来的响应
+    response = requests.get(url)
+    # 响应的网页字符串
+    text = response.text
+    print(text)
+
+def getPages() -> int:
+    url = "有效网址"
+    # 请求回来的响应
+    response = requests.get(url)
+    # 响应的网页字符串
+    text = response.text
+    # 获取网页字符串中匹配的信息
+    result = re.findall(r'>第 1 页，共 ([1-9]\d+) 页</span>', text, re.I)
+    # 返回结果的第一次出现的值,也就是总页数
+    return int(result[0])
