@@ -33,7 +33,7 @@ class DownloadThread(Thread):
 
     def download(self, downloadURL, name):
         """ 进行下载请求 """
-        response = requests.post(downloadURL)
+        response = requests.post(downloadURL, headers = Constant.headers)
         data = response.content
         self.write(name = name, data = data)
         

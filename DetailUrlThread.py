@@ -46,13 +46,13 @@ class DetailUrlThread(Thread):
 
     def getDownloadInfo(self, detailUrl) -> DonwloadInfo:
         """ 获取单个文件的信息 """
-        detailResponse = requests.get(detailUrl)
+        detailResponse = requests.get(detailUrl, headers = Constant.headers)
         soup = BeautifulSoup(detailResponse.text, Constant.htmlParser)
 
         resultCountInfos = soup.select("#btm > div.main > div > div")
         resultCountText = resultCountInfos[0].get_text()
         if resultCountText == Constant.noSeed:
-            print("页面异常,没有种子")
+            print("页面异常,没有种子,网址是: {}".format(detailUrl))
             return None
 
         downloadInfos = soup.select("#download")
