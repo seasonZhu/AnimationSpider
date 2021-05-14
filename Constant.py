@@ -20,6 +20,12 @@ seedFilePath = "/Users/season/Movies/[Seed]"
 # 没有可显示资源
 noResource = "没有可显示资源"
 
+#种子文件不存在！
+noSeed = "种子文件不存在！"
+
+# bs4中获取类型
+htmlParser = "html.parser"
+
 def getDefaultSeedFilePath():
     """ 该函数是默认的使用工程的父目录作为种子下载的存储路径,如果上面的seedFilePath不会配置,直接调用该函数 """
     return os.path.join(path, workFolderPath)

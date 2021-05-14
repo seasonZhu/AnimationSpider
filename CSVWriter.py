@@ -4,7 +4,7 @@ import datetime
 import Constant
 
 def singleton(cls, *args, **kwargs):
-    """ 单例方法 """
+    """ 单例方法,这个暂时没有使用"""
     instances = {}
     
     def _singleton():
@@ -27,8 +27,13 @@ class CSVWriter():
             return
 
         for info in downloadInfos:
-            with open (self.csvFile, "a+") as fp:
-                writer = csv.writer(fp)
-                writer.writerow((info.title, info.downloadURL, info.time, info.hashValue, info.size))
+            try:
+                with open (self.csvFile, "a+") as fp:
+                    writer = csv.writer(fp)
+                    writer.writerow((info.title, info.downloadURL, info.time, info.hashValue, info.size))
+            except IOError as error:
+                print(error)
+            finally:
+                pass
 
         

@@ -23,7 +23,7 @@ def searchAnimation(keyword = None, pageNum = None):
     keyword = Formate.keywordFormat(keyword)
     keywordURL = Constant.baseURL + keyword + page
     keywordResponse = requests.get(keywordURL, headers = Constant.headers)
-    soup = BeautifulSoup(keywordResponse.text, "html.parser")
+    soup = BeautifulSoup(keywordResponse.text, Constant.htmlParser)
     htmlText = keywordResponse.text
     return (soup, htmlText)
 
@@ -51,14 +51,14 @@ def getSearchPageNum(keyword) -> int:
 
 def getSearchOnePageListCount(soup) -> int:
     """ 每一页的动画列表的动画数量 """
-    data_listInfos = soup.select("#data_list")
-    data_list = data_listInfos[0]
-    dataText = data_list.get_text()
-    # 判断资源为空不能通过data_list.contents来进行区别,以为数据为空的时候,这数组还是有值的而且大于0
+    dataListInfos = soup.select("#data_list")
+    dataList = dataListInfos[0]
+    dataText = dataList.get_text()
+    # 判断资源为空不能通过dataList.contents来进行区别,以为数据为空的时候,这数组还是有值的而且大于0
     if Constant.noResource in dataText:
         return 0
     else:
-        contents= data_list.contents
+        contents= dataList.contents
         del contents[0]
         count = int(len(contents) / 2)
         return count

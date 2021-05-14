@@ -1,3 +1,4 @@
+from array import array
 from threading import Thread
 import re
 
@@ -25,6 +26,9 @@ class DetailUrlThread(Thread):
         """ 重写run方法 """
         for detailUrl in self.detailUrls:
             downloadInfo = self.getDownloadInfo(detailUrl = detailUrl)
+            
+            if downloadInfo == None:
+                continue
         
             # 开始信号量锁
             self.sem.acquire()
@@ -40,14 +44,24 @@ class DetailUrlThread(Thread):
         downloadThread = DownloadThread(downloadInfo = downloadInfo, name = name, sem = self.sem)
         downloadThread.start()
 
-    def getDownloadInfo(self, detailUrl):
+    def getDownloadInfo(self, detailUrl) -> DonwloadInfo:
         """ 获取单个文件的信息 """
         detailResponse = requests.get(detailUrl)
-        soup = BeautifulSoup(detailResponse.text, "html.parser")
-        
+        soup = BeautifulSoup(detailResponse.text, Constant.htmlParser)
+
+        resultCountInfos = soup.select("#btm > div.main > div > div")
+        resultCountText = resultCountInfos[0].get_text()
+        if resultCountText == Constant.noSeed:
+            print("页面异常,没有种子")
+            return None
+
         downloadInfos = soup.select("#download")
-        href = downloadInfos[0].get("href")
-        downloadUrl = Constant.baseURL + href
+
+        downloadUrl = ""
+        if len(downloadInfos) > 0:
+            href = downloadInfos[0].get("href")
+            downloadUrl = Constant.baseURL + href
+
         '''
         href的格式:
         down.php?date=1556390414&hash=d8e9125797a795c6888e62b6f952b5d6e38265ba
@@ -56,7 +70,10 @@ class DetailUrlThread(Thread):
         title = self.getDetailUrlOfTitle(soup)
 
         # 通过字符串分割获取时间戳和哈希值
-        dateAndHash = href.split(sep = "?")[1]
+        dateAndHash = ""
+        hrefInfos = href.split(sep = "?")
+        if len(hrefInfos) > 1:
+            dateAndHash = hrefInfos[1]
 
         # 获取时间戳
         date = self.getDetailUrlOfDate(dateAndHash)
@@ -77,25 +94,53 @@ class DetailUrlThread(Thread):
 
     def getDetailUrlOfTitle(self, soup) -> str:
         """ 获取详细页面的标题 """
-        info = soup.select("#btm > div.main > div.slayout > div > div.c2 > div:nth-child(2) > div.torrent_files > ul > li > img")
-        title = info[0].nextSibling
+        infos = soup.select("#btm > div.main > div.slayout > div > div.c2 > div:nth-child(2) > div.torrent_files > ul > li > img")
+        title = ""
+        if len(infos) > 0:
+            title = infos[0].nextSibling
+        else:
+            title = "标题没有成功获取"
         return title
 
     def getDetailUrlOfSize(self, soup) -> str:
         """ 获取详细页面的文件大小 """
-        text = soup.select("#btm > div.main > div.slayout > div > div.c2 > div:nth-child(2) > div.torrent_files > ul > li > span")[0].get_text()
-        size = text.replace("(","").replace(")","")
+        infos = soup.select("#btm > div.main > div.slayout > div > div.c2 > div:nth-child(2) > div.torrent_files > ul > li > span")
+        size = ""
+        if len(infos) > 0:
+            text = infos[0].get_text()
+            size = text.replace("(","").replace(")","")
+        else:
+            size = "文件大小未成功获取"
         return size
 
     def getDetailUrlOfDate(self, dateAndHash) -> str:
         """ 获取详细页面的种子时间戳 """
-        date = dateAndHash.split(sep = "&")[0].split(sep = "=")[1]
+        # date = dateAndHash.split(sep = "&")[0].split(sep = "=")[1]
+        arrayFirstDateAndSceondHash = dateAndHash.split(sep = "&")
+        date = "时间戳未获取成功"
+
+        if len(arrayFirstDateAndSceondHash) > 0:
+            dateInfo = arrayFirstDateAndSceondHash[0]
+            dateValue = dateInfo.split(sep = "=")
+            if len(dateValue) > 1:
+                date = dateValue[1]
+                return date
+
         return date
 
     def getDetailUrlOfHashValue(self, dateAndHash) -> str:
         """ 获取详细页面的种子的哈希值 """
-        hashValue = dateAndHash.split(sep = "&")[1].split(sep = "=")[1]
-        return hashValue
+        #hashs = dateAndHash.split(sep = "&")[1].split(sep = "=")[1]
+        arrayFirstDateAndSceondHash = dateAndHash.split(sep = "&")
+        hashs = "哈希值未获取成功"
+
+        if len(arrayFirstDateAndSceondHash) > 1:
+            hashInfo = arrayFirstDateAndSceondHash[1]
+            hashValue = hashInfo.split(sep = "=")
+            if len(hashValue) > 1:
+                hashs = hashValue[1]
+                return hashs
+        return hashs
 
     """ 元组的返回是不能 -> (str, str)这么写的 """
     def getDetailUrlOfBasicInfo(self, htmlText, soup):

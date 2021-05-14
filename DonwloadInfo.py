@@ -17,6 +17,8 @@ class DonwloadInfo:
     def toTimeString(self, date) -> str:
         """ 时间戳转字符串的方法 """
         timeStamp = int(date)
+        if timeStamp == None:
+            return datetime.datetime.now
         dateArray = datetime.datetime.utcfromtimestamp(timeStamp)
         time = dateArray.strftime("%Y-%m-%d %H:%M:%S")
         return time  
