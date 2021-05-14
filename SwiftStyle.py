@@ -1,4 +1,4 @@
-# 今天看了一篇Python的文章,才发现还有这种写法,这基本上和Swift没什么区别了
+""" 今天看了一篇Python的文章,才发现还有这种写法,这基本上和Swift没什么区别了 """
 def swiftStyle():
     """ 一个Swift风格的函数表达式 """
     a: str = "aa"

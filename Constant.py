@@ -5,6 +5,7 @@ import random
 # 基本网址 这两个网址的是同一个系统写的,所以爬起来一模一样
 baseURL = "https://www.36dm.com/"#"http://www.acgsou.com/"#
 
+# userAgent
 userAgent = [
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
     "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
@@ -39,7 +40,7 @@ seedFilePath = "/Users/season/Movies/[Seed]"
 # 没有可显示资源
 noResource = "没有可显示资源"
 
-#种子文件不存在！
+# 种子文件不存在！
 noSeed = "种子文件不存在！"
 
 # bs4中获取类型
