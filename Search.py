@@ -27,7 +27,7 @@ def searchAnimation(keyword = None, pageNum = None):
     htmlText = keywordResponse.text
     return (soup, htmlText)
 
-def getSearchPageNum(keyword):
+def getSearchPageNum(keyword) -> int:
     """ 获取搜索的动画一共有多少页 """
     (soup, _) = searchAnimation(keyword = keyword)
     pageLastInfos = soup.select("#btm > div.main > div.pages.clear > a.pager-last.active")
@@ -49,7 +49,7 @@ def getSearchPageNum(keyword):
     else:
         return 1
 
-def getSearchOnePageListCount(soup):
+def getSearchOnePageListCount(soup) -> int:
     """ 每一页的动画列表的动画数量 """
     data_listInfos = soup.select("#data_list")
     data_list = data_listInfos[0]
@@ -63,7 +63,7 @@ def getSearchOnePageListCount(soup):
         count = int(len(contents) / 2)
         return count
 
-def getAllPageListCount(soup):
+def getAllPageListCount(soup) -> int:
     """ 搜索动画总的数量 """
     resultCountInfos = soup.select("#btm > div.main > div > h2 > span")
     resultCountText = resultCountInfos[0].get_text()
@@ -72,7 +72,7 @@ def getAllPageListCount(soup):
     resultCount = resultCounts.group()
     return resultCount
 
-def getDetailUrls(soup, htmlText):
+def getDetailUrls(soup, htmlText) -> list:
     """ 获取详细的动画页面的Url """
     pageListCount = getSearchOnePageListCount(soup)
     detailUrProduce = DetailUrlProduce(soup = soup, pageListCount = pageListCount, htmlText = htmlText)

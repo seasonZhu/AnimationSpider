@@ -15,7 +15,7 @@ class DetailUrlProduce():
         self.pageListCount = pageListCount
         self.htmlText = htmlText
 
-    def getAllDetailUrls(self):
+    def getAllDetailUrls(self) -> list:
         """ 获取所有的详细页面的Url 返回一个url数组 """
         print("一页的数量{}".format(self.pageListCount))
         detailUrls = []

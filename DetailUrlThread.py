@@ -75,42 +75,29 @@ class DetailUrlThread(Thread):
 
         return downloadInfo
 
-    def getDetailUrlOfTitle(self, soup):
+    def getDetailUrlOfTitle(self, soup) -> str:
         """ 获取详细页面的标题 """
-        text = soup.select("#btm > div.main > div.slayout > div > div.c2 > div:nth-child(3) > div.torrent_files > ul > li")[0].get_text()
-        # 对于桜都奇葩的命名做特殊处理 
-        # 桜都的实在太奇葩 我没有办法做特别好的处理 除非写一个很好的正则表达
-        if text.find("[Sakurato.sub]"):
-            text = text.replace("[Sakurato.sub]","[Sakurato]")
-            title = text.split(sep = ".")[0]
-        else:
-            title = text.split(sep = ".")[0]
-        # 从字符串的右边开始 获取第一次得到"."的位置信息进行切片 也没有解决这个问题
-        # rIndex = text.rindex(".")
-        # Title = text[:rIndex]
+        info = soup.select("#btm > div.main > div.slayout > div > div.c2 > div:nth-child(2) > div.torrent_files > ul > li > img")
+        title = info[0].nextSibling
         return title
 
-    def getDetailUrlOfSize(self, soup):
+    def getDetailUrlOfSize(self, soup) -> str:
         """ 获取详细页面的文件大小 """
-        text = soup.select("#btm > div.main > div.slayout > div > div.c2 > div:nth-child(3) > h2 > span.right.text_normal")[0].get_text()
-        sizeText = text.split(sep = "，")[1]
-        size = sizeText.split(sep = "：")[1]
-
-        # 这里使用正则表达式获取不到 单位 其实可以用写一个合理的正则去表示
-        #sizes = re.search(r"\d+",sizeText)
-        #size = sizes.group()
+        text = soup.select("#btm > div.main > div.slayout > div > div.c2 > div:nth-child(2) > div.torrent_files > ul > li > span")[0].get_text()
+        size = text.replace("(","").replace(")","")
         return size
 
-    def getDetailUrlOfDate(self, dateAndHash):
+    def getDetailUrlOfDate(self, dateAndHash) -> str:
         """ 获取详细页面的种子时间戳 """
         date = dateAndHash.split(sep = "&")[0].split(sep = "=")[1]
         return date
 
-    def getDetailUrlOfHashValue(self, dateAndHash):
+    def getDetailUrlOfHashValue(self, dateAndHash) -> str:
         """ 获取详细页面的种子的哈希值 """
         hashValue = dateAndHash.split(sep = "&")[1].split(sep = "=")[1]
         return hashValue
 
+    """ 元组的返回是不能 -> (str, str)这么写的 """
     def getDetailUrlOfBasicInfo(self, htmlText, soup):
         """ 获取详细页面的基本信息 """
         selector = etree.HTML(htmlText)
