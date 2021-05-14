@@ -3,7 +3,6 @@ import os
 
 import requests
 
-from DonwloadInfo import DonwloadInfo
 import Constant
 
 """ 通过下载信息进行下载 """

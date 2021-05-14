@@ -30,6 +30,14 @@ def searchAnimation(keyword = None, pageNum = None):
 def getSearchPageNum(keyword) -> int:
     """ 获取搜索的动画一共有多少页 """
     (soup, _) = searchAnimation(keyword = keyword)
+
+    # 异常处理网页搜索的内容为空,直接在这里退出
+    listInfos = soup.select("#data_list > tr > td")
+    if len(listInfos) > 0:
+        text = listInfos[0].get_text()
+        if text == Constant.noResource:
+            return None
+
     pageLastInfos = soup.select("#btm > div.main > div.pages.clear > a.pager-last.active")
     pageInfos = soup.select("#btm > div.main > div.pages.clear > a:nth-child(3)")
 
@@ -52,6 +60,9 @@ def getSearchPageNum(keyword) -> int:
 def getSearchOnePageListCount(soup) -> int:
     """ 每一页的动画列表的动画数量 """
     dataListInfos = soup.select("#data_list")
+    if len(dataListInfos) == 0:
+        return 0
+
     dataList = dataListInfos[0]
     dataText = dataList.get_text()
     # 判断资源为空不能通过dataList.contents来进行区别,以为数据为空的时候,这数组还是有值的而且大于0
@@ -122,13 +133,23 @@ def searchPrepare():
     os.chdir(Constant.seedFilePath)
 
     # 获取通过关键字搜索的页面数量
-    pageNum = getSearchPageNum(keyword = keyword) or 0
+    pageNum = getSearchPageNum(keyword = keyword)
 
     return (keyword, pageNum)
 
 def startSearch():
     """ 开始搜索 """
     (keyword, pageNum) = searchPrepare()
+
+    if pageNum == None:
+        print("通过关键词没有搜索到结果,是否重来一次?(输入小写的y表示重来)")
+        result = input("是否重新来一次:")
+        if result == "y":
+           startSearch()
+           return
+        else:
+            print("退出")
+            return
 
     for page in range(1, int(pageNum) + 1):
         print("第{}页".format(page))

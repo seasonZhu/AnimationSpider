@@ -8,7 +8,6 @@ from lxml import etree
 
 from DonwloadInfo import DonwloadInfo
 from DownloadThread import DownloadThread
-import Formate
 import Constant
 
 """ 通过详细网址爬取详细网页信息进而启动下载 """
@@ -49,9 +48,9 @@ class DetailUrlThread(Thread):
         detailResponse = requests.get(detailUrl, headers = Constant.headers)
         soup = BeautifulSoup(detailResponse.text, Constant.htmlParser)
 
-        resultCountInfos = soup.select("#btm > div.main > div > div")
-        resultCountText = resultCountInfos[0].get_text()
-        if resultCountText == Constant.noSeed:
+        contentInfos = soup.select("#btm > div.main > div > div")
+        contentInfoText = contentInfos[0].get_text()
+        if contentInfoText == Constant.noSeed:
             print("页面异常,没有种子,网址是: {}".format(detailUrl))
             return None
 
