@@ -51,6 +51,7 @@ class DetailUrlThread(Thread):
         contentInfos = soup.select("#btm > div.main > div > div")
         contentInfoText = contentInfos[0].get_text()
         if contentInfoText == Constant.noSeed:
+            # 这里可以考虑将异常信息保存下来
             print("页面异常,没有种子,网址是: {}".format(detailUrl))
             return None
 
